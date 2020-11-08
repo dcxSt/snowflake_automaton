@@ -31,7 +31,7 @@ The constant $\gamma$ added to receptive sites informally captures the idea that
 
 *Background level*
 
-The background level $\beta\in[0,1]$
+The background level $\beta\in[0,1]$ is how humid the surrounding atmosphere is. We can eventually have this be dependent on the radius $r$ so that the conditions for growth are inhomogeneous.
 
 *Avereaging*
 
@@ -40,7 +40,8 @@ The mass in the unreceptive sites is free to move, and hence moves toward an ave
 Various weighted averages may be used on the unreceptive field. To start off I use the average of the current cell value with the average of it's nearest neighbors --> Thus, the center cell has wight 1/2 while the six neighboring cells each have weight 1/12.
 
 *Diffusion*
-The diffusion of vapor at the unreceptive sites at position $P$ and time $t$, denoted $u(t,P)$, is expected to satisfy the diffusion equation
+
+The diffusion of vapor at the unreceptive sites at position $P$ and time $t$, denoted $u(t,P)$, is expected to satisfy the diffusion equation; it is correlated with temperature.
 $$\frac{\partial u}{\partial t} = k\nabla^2 u$$
 where $k$ is the diffusion constant and $\nabla^2 = \Delta = \delta d = d\star d$ is the laplacian. The Laplacian is approximated on the hexagonal lattice via
 $$\nabla^2 u = \frac{2}{3}\bigg( -6 u(t,P) + \sum_{N\in nm(P)} u(t,N) \bigg)$$
