@@ -1,6 +1,7 @@
 # Snowflake models
 ### Inspiration
-John Conway, the beauty of nature and Cordelia, who loved nature more than anyone.
+John Conway, prof. Lin, nature and Cordelia, who loved nature more than anyone.
+
 ![alpha=2.43 beta=0.35 gamma=0.001 n=300](snowflake_pngs_alpha=2.43_beta=0.35_gamma=0.001/snowflake_alph2.43_beta0.35_gamma0.001_n300.gif)
 
 ![snowflake_alpha=2.43_beta=0.45_gamma=0.003](snowflake_pngs_alpha=2.43_beta=0.45_gamma=0.003/snowflake_alpha=2.43_beta=0.45_gamma=0.003.gif)
@@ -9,7 +10,7 @@ John Conway, the beauty of nature and Cordelia, who loved nature more than anyon
 **Notes on Clifford A. Reiter's "A local cellular model for snow crystal growth"**
 [link Reiter paper](https://patarnott.com/pdf/SnowCrystalGrowth.pdf)
 
-- "physical studies have shown that the particular form of a snow crystal is dependend upon *temperature and saturation* in the growth environment."
+- "physical studies have shown that the particular form of a snow crystal is dependend upon *temperature and saturation* in the growth environment." aka alpha and beta
 - doesn't derive growth model from physical laws and nasty pdes, "our goal is to create a simple local model for snowflake growth that exhibits the variety of two-dimensional forms seen in snow crystals."
 - the model is two dimensional and has only two parameters
 - forms in snowflake: sector, stellar, dendrite and plate forms
@@ -29,9 +30,11 @@ The second stage, the values of the cells are given by the values at the recepti
 The constant $\gamma$ added to receptive sites informally captures the idea that some water may be available from outside the plane of growth. It captures the humidity of the environment.
 
 *Background level*
+
 The background level $\beta\in[0,1]$
 
 *Avereaging*
+
 The mass in the unreceptive sites is free to move, and hence moves toward an average value. It's a discrete diffusion equation (think heat equation / laplacian / probabilistic distributions of random walks). We could think of doing things like introducing drift to see what happens. 
 
 Various weighted averages may be used on the unreceptive field. To start off I use the average of the current cell value with the average of it's nearest neighbors --> Thus, the center cell has wight 1/2 while the six neighboring cells each have weight 1/12.
