@@ -166,3 +166,5 @@ if __name__=="__main__":
     gamma = 0.001 # accreation from outside to account for 3rd dimension
     max_iter = 10000 
     n = 450 # size of frame
+
+    make_snowflake_pngs_for_gif(alpha,beta,gamma,max_iter,n)
