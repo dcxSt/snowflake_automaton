@@ -2,6 +2,8 @@
 ### Inspiration
 John Conway, prof. Lin, nature and Cordelia, who loved nature more than anyone.
 
+Make you're own snowflake: clone the repository, go in snowflake_gen_draft1.py, edit alpha,beta and gamma and run! You can change n to make the frame bigger or smaller.
+
 ![alpha=2.43 beta=0.35 gamma=0.001 n=300](snowflake_pngs_alpha=2.43_beta=0.35_gamma=0.001/snowflake_alph2.43_beta0.35_gamma0.001_n300.gif)
 
 ![snowflake_alpha=2.43_beta=0.45_gamma=0.003](snowflake_pngs_alpha=2.43_beta=0.45_gamma=0.003/snowflake_alpha=2.43_beta=0.45_gamma=0.003.gif)
