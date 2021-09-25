@@ -1,4 +1,4 @@
-# python snowflake generation version 1
+# genearte a snowflake automaton in python 
 
 # imports 
 import numpy as np
@@ -6,13 +6,8 @@ import matplotlib.pyplot as plt
 import os
 
 """
-So the grid is hexagonal, and how we're gonna make it is a 
-square array, where every other line is displaed to the left 
-or to the right a tiny bit.
-The first array is slightly to the left and the second slightly 
-to the right. Since we start at zero, the arrays with even index 
-will be displaced to the left and those with odd things will be 
-slightly to the right.
+The grid is hexagonal, we make a 2d square array (n x n), and imagine 
+that each even index subarray of pixels is displaced to the left by half a pixel.
 """
 
 # initializes the grid
@@ -47,7 +42,7 @@ def plot_grid(grid,saveas=None):
         plt.savefig(saveas)
     plt.show()
 
-# convert a gradient thing to a binary solid/liquid
+# set the max value threshold to be 1, when a pixel is 1 it is solid
 def to_snowflake(grid):
     n = grid.shape[0]
     snowflake_grid = np.zeros((n,n))
@@ -78,9 +73,6 @@ def average(grid,alpha):
                 averaged_grid[(i-1)%n][(j+1)%n] += alpha/12*element
     return averaged_grid
 
-def get_grid_is_receptive(grid,n):
-    grid_is_receptive = np.zeros(())
-
 # update the grid, this is the discrete update function / diff-eq
 def timestep(grid,alpha,gamma):
     n = grid.shape[0]
@@ -103,8 +95,8 @@ def timestep(grid,alpha,gamma):
                     grid_is_receptive[(i-1)%n][(j+1)%n] = 1
                     
     # make receptive and non receptive grids
-    grid_receptive = np.zeros((n,n))
-    grid_non_receptive = np.zeros((n,n))
+    grid_receptive = np.zeros((n,n)) # the receptive sites
+    grid_non_receptive = np.zeros((n,n)) # the non receptive sites
     for i,row in enumerate(grid):
         for j,element in enumerate(row):
             if grid_is_receptive[i][j]==1:
@@ -116,7 +108,7 @@ def timestep(grid,alpha,gamma):
     grid_non_receptive = average(grid_non_receptive,alpha)
     return grid_receptive + grid_non_receptive
 
-# checks to see if the grid is too big, if it is, returns True, if not it returns false
+# checks to see if snowflake is too big for the grid, if it is, returns True, if not it returns false
 def snowflake_too_big(grid):
     n = grid.shape[0]
     mid = int((n-1)/2)
@@ -125,7 +117,7 @@ def snowflake_too_big(grid):
         return True
     return False
 
-# mades frame aka grid bigger by a padded margin of 20, the padding has thickness 20
+# makes the grid bigger by adding some padding
 def pad(grid,beta,pad_size=20):
     n = grid.shape[0]
     bigger_grid = np.ones((n+2*pad_size,n+2*pad_size))*beta
@@ -142,7 +134,7 @@ def make_snowflake_pngs_for_gif(alpha,beta,gamma,iterations,n):
     for i in range(iterations):
         grid = timestep(grid,alpha,gamma)
         if i % 100 == 0:
-            # chekc if it's too big, if so stop the loop
+            # chekc if the snowflake is too big for the grid, if so stop the loop
             if snowflake_too_big(grid):
                 break
             
@@ -153,7 +145,7 @@ def make_snowflake_pngs_for_gif(alpha,beta,gamma,iterations,n):
             np.save("{}/snowflake_alpha={}_beta={}_gamma={}_iter={}_n={}".format(dir_name,alpha,beta,gamma,i,n),grid)
             
             
-    # once we're done, save and display one final copy
+    # once we're done, save and display the final state
     n = grid.shape[0]
     saveas = "snowflake_alpha={}_beta={}_gamma={}_iter={}_n={}.png".format(alpha,beta,gamma,i,n)
     plot_grid(grid,saveas)
