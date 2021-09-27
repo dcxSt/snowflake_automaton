@@ -21,7 +21,7 @@ def init_grid(beta,n=101):
     return grid
 
 # plot the grid
-def plot_grid(grid,saveas=None):
+def plot_grid(grid,saveas=None,show=False):
 #     normalized = grid / max(grid.flatten())
     # invert the color 
     n = grid.shape[0]
@@ -40,7 +40,8 @@ def plot_grid(grid,saveas=None):
     # save the figure
     if saveas:
         plt.savefig(saveas)
-    plt.show()
+    if show:
+        plt.show(block=True)
 
 # set the max value threshold to be 1, when a pixel is 1 it is solid
 def to_snowflake(grid):
@@ -133,7 +134,7 @@ def make_snowflake_pngs_for_gif(alpha,beta,gamma,iterations,n):
     grid = init_grid(beta,n)
     for i in range(iterations):
         grid = timestep(grid,alpha,gamma)
-        if i % 100 == 0:
+        if i % 50 == 0:
             # chekc if the snowflake is too big for the grid, if so stop the loop
             if snowflake_too_big(grid):
                 break
@@ -153,10 +154,10 @@ def make_snowflake_pngs_for_gif(alpha,beta,gamma,iterations,n):
     return
 
 if __name__=="__main__":
-    alpha = 2.43 # this is the diffusion constant
+    alpha = 2.44 # this is the diffusion constant
     beta = 0.35 # background level, initial water density in surrounding atmosphere
     gamma = 0.001 # accreation from outside to account for 3rd dimension
-    max_iter = 10000 
-    n = 450 # size of frame
+    max_iter = 1000 
+    n = 250 # size of frame
 
     make_snowflake_pngs_for_gif(alpha,beta,gamma,max_iter,n)
