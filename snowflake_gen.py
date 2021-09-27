@@ -16,7 +16,7 @@ def init_grid(beta,n=101):
     grid = np.ones((n,n)) * beta
     # assume n is odd, fill middle cell with value 1
     mid = int((n-1)/2)
-    grid[mid][mid] = 1
+    grid[mid][mid] = 1 # this is the seed / mineral around which the snowflake forms
     
     return grid
 
@@ -40,8 +40,8 @@ def plot_grid(grid,saveas=None,show=False):
     # save the figure
     if saveas:
         plt.savefig(saveas)
-    if show:
-        plt.show(block=True)
+    if show: # display the figure
+        plt.show(block=True) # in jupyter notebook set block=False
 
 # set the max value threshold to be 1, when a pixel is 1 it is solid
 def to_snowflake(grid):
@@ -52,7 +52,7 @@ def to_snowflake(grid):
             if element >= 1: snowflake_grid[i][j] = 1
     return snowflake_grid
 
-# helper for update grid, adds to the receptive cells
+# helper for update grid, each (humid) gas cell becomes the average of it's neighbors 
 def average(grid,alpha):
     n = grid.shape[0]
     averaged_grid = np.zeros((n,n))
@@ -128,13 +128,15 @@ def pad(grid,beta,pad_size=20):
     return bigger_grid
 
 def make_snowflake_pngs_for_gif(alpha,beta,gamma,iterations,n):
-    # open a new directory
+    # make a new directory
     dir_name = "snowflake_pngs_alpha={}_beta={}_gamma={}".format(alpha,beta,gamma)
-    os.mkdir(dir_name)
-    grid = init_grid(beta,n)
+    os.mkdir(dir_name) 
+
+    grid = init_grid(beta,n) # initiate a seedling snowflake
     for i in range(iterations):
         grid = timestep(grid,alpha,gamma)
-        if i % 50 == 0:
+
+        if i % 50 == 0: # every 50th iteration, save an image of the snow-flake
             # chekc if the snowflake is too big for the grid, if so stop the loop
             if snowflake_too_big(grid):
                 break
@@ -154,10 +156,11 @@ def make_snowflake_pngs_for_gif(alpha,beta,gamma,iterations,n):
     return
 
 if __name__=="__main__":
-    alpha = 2.44 # this is the diffusion constant
-    beta = 0.35 # background level, initial water density in surrounding atmosphere
-    gamma = 0.001 # accreation from outside to account for 3rd dimension
-    max_iter = 1000 
-    n = 250 # size of frame
+    alpha = 2.44    # this is the diffusion constant
+    beta = 0.35     # background level, initial water density in surrounding atmosphere
+    gamma = 0.001   # accreation from outside to account for 3rd dimension
+    max_iter = 1000 # maximum number of iterations for the simulation
+    n = 250         # size of frame
 
+    # grow the snowflake and generate pngs of it as it grows 
     make_snowflake_pngs_for_gif(alpha,beta,gamma,max_iter,n)
