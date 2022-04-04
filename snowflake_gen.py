@@ -56,6 +56,7 @@ def to_snowflake(grid):
 def average(grid,alpha):
     n = grid.shape[0]
     averaged_grid = np.zeros((n,n))
+    # optimization: just convolve with a filter instead of this slow nested for loop
     for i,row in enumerate(grid):
         for j,element in enumerate(row):
             averaged_grid[i][j] += (1-alpha*0.5)*element
